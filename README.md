@@ -4,18 +4,25 @@
 Un bazar ha incrementado en gran medida sus ventas. Dado esto y que le está siendo casi
 imposible registrar las mismas y manejar el stock de sus productos de forma manual, necesita
 del desarrollo de una aplicación que le permita realizar esta tarea.
-
-La dueña del bazar manifiesta que todas las operaciones que tenga la aplicación se deben
-poder realizar mediante dos tipos de clientes http distintos:
-
-• Una aplicación web, cuyo frontend desarrollará un programador amigo (no será parte
-de nuestra tarea como desarrolladores backend).
-
-• Una aplicación Mobile que será implementada a futuro.
-
-Cada una de estas app representa a los dispositivos que ella y sus empleados manejan
-actualmente. En síntesis: una computadora y varios celulares.
 Dada esta situación particular y de que necesita utilizar el mismo backend para ambas
-opciones, solicita el desarrollo de una API.
+opciones (una web y una mobile), solicita el desarrollo de una API.
+
+<h3>Implementaciones</h3>
+
+•Realizar un CRUD para las ventas, clientes y productos.
+
+•Obtener todos los productos cuya cantidad_disponible sea menor a 5
+
+•Obtener la lista de productos de una determinada venta
+
+•Obtener la sumatoria del monto y también cantidad total de ventas de un determinado
+día
+
+•Obtener el codigo de venta, el total, la cantidad de productos, el nombre del cliente y el
+apellido del cliente de la venta con el monto más alto de todas. 
+
+
+
+
 
 
