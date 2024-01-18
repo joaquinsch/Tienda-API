@@ -4,6 +4,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,11 +22,12 @@ public class Cliente {
     private String nombre;
     private String apellido;
     private String dni;
+    @OneToMany(mappedBy = "unCliente")
+    private List<Venta> ventasCliente;
+    
 
     public Cliente() {
     }
-    
-    
 
     public Cliente(Long id_cliente, String nombre, String apellido, String dni) {
         this.id_cliente = id_cliente;

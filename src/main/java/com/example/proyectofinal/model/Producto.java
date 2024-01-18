@@ -5,10 +5,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
-
 
 @Getter
 @Setter
@@ -22,22 +24,25 @@ public class Producto {
     private String marca;
     private Double costo;
     private Double cantidad_disponible;
-    
-    @ManyToOne
-    @JoinColumn(name="codigo_venta")
-    private Venta unaVenta;
-    
+
+    @ManyToMany
+    @JoinTable(
+            name = "rel_productos_ventas",
+            joinColumns = @JoinColumn(name = "FK_PRODUCTO", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "FK_VENTA", nullable = false)
+    )
+    private List<Venta> listaVentas;
+
     public Producto() {
     }
 
-    public Producto(Long codigo_producto, String nombre, String marca, Double costo, Double cantidad_disponible, Venta unaVenta) {
+    public Producto(Long codigo_producto, String nombre, String marca, Double costo, Double cantidad_disponible, List<Venta> listaVentas) {
         this.codigo_producto = codigo_producto;
         this.nombre = nombre;
         this.marca = marca;
         this.costo = costo;
         this.cantidad_disponible = cantidad_disponible;
-        this.unaVenta = unaVenta;
+        this.listaVentas = listaVentas;
     }
-
 
 }
