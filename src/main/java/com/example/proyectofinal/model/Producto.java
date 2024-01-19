@@ -25,12 +25,8 @@ public class Producto {
     private Double costo;
     private Double cantidad_disponible;
 
-    @ManyToMany
-    @JoinTable(
-            name = "rel_productos_ventas",
-            joinColumns = @JoinColumn(name = "FK_PRODUCTO", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "FK_VENTA", nullable = false)
-    )
+    @ManyToMany(mappedBy = "listaProductos")
+   
     private List<Venta> listaVentas;
 
     public Producto() {

@@ -1,5 +1,6 @@
 package com.example.proyectofinal.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,7 +23,7 @@ public class Cliente {
     private String nombre;
     private String apellido;
     private String dni;
-    @OneToMany(mappedBy = "unCliente")
+    @OneToMany(cascade= CascadeType.ALL, mappedBy = "unCliente")
     private List<Venta> ventasCliente;
     
 
