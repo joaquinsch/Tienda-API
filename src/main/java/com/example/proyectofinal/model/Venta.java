@@ -1,7 +1,6 @@
 package com.example.proyectofinal.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,8 +9,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.Getter;
@@ -29,7 +26,7 @@ public class Venta {
     private LocalDate fecha_venta;
     private Double total;
     
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany
      @JoinTable(
             name = "rel_productos_ventas",
             joinColumns = @JoinColumn(name = "id_venta", nullable = false),
@@ -39,8 +36,6 @@ public class Venta {
     @ManyToOne
     @JoinColumn( name = "id_cliente",referencedColumnName ="id_cliente" )
     private Cliente unCliente;
-
-    
 
     public Venta() {
     }
