@@ -19,33 +19,30 @@ import lombok.Setter;
 @Entity
 public class Venta {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long codigo_venta;
-     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
-    private LocalDate fecha_venta;
-    private Double total;
-    
-    @ManyToMany
-     @JoinTable(
-            name = "rel_productos_ventas",
-            joinColumns = @JoinColumn(name = "id_venta", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "id_producto", nullable = false)
-    )
-    private List<Producto> listaProductos;
-    @ManyToOne
-    @JoinColumn( name = "id_cliente",referencedColumnName ="id_cliente" )
-    private Cliente unCliente;
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private Long codigo_venta;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	private LocalDate fecha_venta;
+	private Double total;
 
-    public Venta() {
-    }
+	@ManyToMany
+	@JoinTable(name = "rel_productos_ventas", joinColumns = @JoinColumn(name = "id_venta", nullable = false), inverseJoinColumns = @JoinColumn(name = "id_producto", nullable = false))
+	private List<Producto> listaProductos;
+	@ManyToOne
+	@JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
+	private Cliente unCliente;
 
-    public Venta(Long codigo_venta, LocalDate fecha_venta, Double total, List<Producto> listaProductos, Cliente unCliente) {
-        this.codigo_venta = codigo_venta;
-        this.fecha_venta = fecha_venta;
-        this.total = total;
-        this.listaProductos = listaProductos;
-        this.unCliente = unCliente;
-    }
+	public Venta() {
+	}
+
+	public Venta(Long codigo_venta, LocalDate fecha_venta, Double total, List<Producto> listaProductos,
+			Cliente unCliente) {
+		this.codigo_venta = codigo_venta;
+		this.fecha_venta = fecha_venta;
+		this.total = total;
+		this.listaProductos = listaProductos;
+		this.unCliente = unCliente;
+	}
 
 }

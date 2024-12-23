@@ -2,8 +2,11 @@
 package com.example.proyectofinal.service;
 
 import com.example.proyectofinal.dto.VentaClienteDTO;
+import com.example.proyectofinal.dto.VentaProductoDTO;
+import com.example.proyectofinal.model.Cliente;
 import com.example.proyectofinal.model.Producto;
 import com.example.proyectofinal.model.Venta;
+import com.example.proyectofinal.repository.IClienteRepository;
 import com.example.proyectofinal.repository.IProductoRepository;
 import com.example.proyectofinal.repository.IVentaRepository;
 
@@ -20,23 +23,39 @@ public class VentaService implements IVentaService {
 	private IVentaRepository ventaRepo;
 	@Autowired
 	private IProductoRepository productoRepo;
+	@Autowired
+	private IClienteRepository clienteRepo;
 
 	@Override
-	public void saveVenta(Venta venta) {
-		if (venta.getListaProductos().size() == 0) {
+	public void saveVenta(VentaProductoDTO ventaProductoDTO) {
+		Venta venta = new Venta();
+		if (ventaProductoDTO.getListaProductos().size() == 0) {
 			throw new Error("La venta no tiene productos asociados");
 		}
-		List<Producto> productos = venta.getListaProductos();
+		Cliente cliente = clienteRepo.findById(ventaProductoDTO.getUnCliente().getId_cliente()).orElse(null);
+		if (cliente == null) {
+			throw new Error("El cliente no existe");
+		}
+		List<Producto> productos = ventaProductoDTO.getListaProductos();
+		Double precioTotalProductos = 0.0;
+
 		for (Producto producto : productos) {
 			Producto buscado = productoRepo.findById(producto.getCodigo_producto()).orElse(null);
 			if (buscado == null) {
 				throw new Error("El producto no existe");
 			}
+			precioTotalProductos += buscado.getCosto();
 			Double cantidadDisponible = buscado.getCantidad_disponible();
 			Double cantidadDisponibleActualizada = cantidadDisponible - 1;
 			buscado.setCantidad_disponible(cantidadDisponibleActualizada);
 			productoRepo.save(buscado);
 		}
+		venta.setCodigo_venta(ventaProductoDTO.getCodigo_venta());
+		venta.setFecha_venta(ventaProductoDTO.getFecha_venta());
+		venta.setTotal(precioTotalProductos);
+		venta.setListaProductos(ventaProductoDTO.getListaProductos());
+		venta.setUnCliente(ventaProductoDTO.getUnCliente());
+		
 		this.ventaRepo.save(venta);
 	}
 
@@ -58,7 +77,7 @@ public class VentaService implements IVentaService {
 
 	@Override
 	public void editVenta(Venta venta) {
-		this.saveVenta(venta);
+		this.ventaRepo.save(venta);
 
 	}
 

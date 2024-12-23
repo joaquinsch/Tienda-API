@@ -5,6 +5,7 @@
 package com.example.proyectofinal.controller;
 
 import com.example.proyectofinal.dto.VentaClienteDTO;
+import com.example.proyectofinal.dto.VentaProductoDTO;
 import com.example.proyectofinal.model.Venta;
 import com.example.proyectofinal.service.IVentaService;
 import java.time.LocalDate;
@@ -41,10 +42,20 @@ public class VentaController {
 		return this.ventaServ.getVenta(codigo_venta);
 	}
 
+	/**
+	 * @throws error si el cliente o algun producto no existe
+	 * 
+	 * 
+	 * Ejemplo del body de una venta: 
+	 * { "fecha_venta": "21-12-2024", "total": 500,
+	 * "listaProductos": [ { "codigo_producto": 102 } ], "unCliente": {
+	 * "id_cliente": 52 } }
+	 * 
+	 */
 	@PostMapping("/ventas/crear")
-	public String crearVenta(@RequestBody Venta venta) {
+	public String crearVenta(@RequestBody VentaProductoDTO ventaProductoDTO) {
 		try {
-			this.ventaServ.saveVenta(venta);
+			this.ventaServ.saveVenta(ventaProductoDTO);
 			return "Se ha creado";
 		} catch (Exception e) {
 			return e.getMessage();
