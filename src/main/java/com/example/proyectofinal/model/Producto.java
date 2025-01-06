@@ -6,6 +6,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,6 +26,7 @@ public class Producto {
     private Double costo;
     private Double cantidad_disponible;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "listaProductos")
    
     private List<Venta> listaVentas;

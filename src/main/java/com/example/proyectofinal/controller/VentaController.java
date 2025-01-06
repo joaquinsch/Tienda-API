@@ -12,6 +12,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,6 +38,13 @@ public class VentaController {
 	@GetMapping("/ventas/traertodas")
 	public List<Venta> traerVentas() {
 		return ventaServ.getVentas();
+		/*
+		 * try { return ResponseEntity.ok(ventaServ.getVentas());
+		 * 
+		 * } catch (Exception e) { return
+		 * ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Algo salió mal"
+		 * ); }
+		 */
 	}
 
 	@GetMapping("/ventas/traer/{codigo_venta}")
@@ -46,19 +56,25 @@ public class VentaController {
 	 * @throws error si el cliente o algun producto no existe
 	 * 
 	 * 
-	 * Ejemplo del body de una venta: 
-	 * { "fecha_venta": "21-12-2024", "total": 500,
-	 * "listaProductos": [ { "codigo_producto": 102 } ], "unCliente": {
-	 * "id_cliente": 52 } }
+	 *               Ejemplo del body de una venta: { "fecha_venta": "21-12-2024",
+	 *               "total": 500, "listaProductos": [ { "codigo_producto": 102 } ],
+	 *               "unCliente": { "id_cliente": 52 } }
 	 * 
 	 */
 	@PostMapping("/ventas/crear")
-	public String crearVenta(@RequestBody VentaProductoDTO ventaProductoDTO) {
+	public ResponseEntity<String> crearVenta(@RequestBody VentaProductoDTO ventaProductoDTO) {
 		try {
 			this.ventaServ.saveVenta(ventaProductoDTO);
-			return "Se ha creado";
+			return ResponseEntity.status(HttpStatus.CREATED).body("Se ha creado");
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		} catch (RuntimeException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		} catch (Error e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (Exception e) {
-			return e.getMessage();
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocurrió un error");
 		}
 	}
 

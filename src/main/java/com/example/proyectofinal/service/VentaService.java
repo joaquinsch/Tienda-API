@@ -27,10 +27,10 @@ public class VentaService implements IVentaService {
 	private IClienteRepository clienteRepo;
 
 	@Override
-	public void saveVenta(VentaProductoDTO ventaProductoDTO) {
+	public Venta saveVenta(VentaProductoDTO ventaProductoDTO) {
 		Venta venta = new Venta();
 		if (ventaProductoDTO.getListaProductos().size() == 0) {
-			throw new Error("La venta no tiene productos asociados");
+			throw new IllegalArgumentException("La venta no tiene productos asociados");
 		}
 		Cliente cliente = clienteRepo.findById(ventaProductoDTO.getUnCliente().getId_cliente()).orElse(null);
 		if (cliente == null) {
@@ -43,6 +43,8 @@ public class VentaService implements IVentaService {
 			Producto buscado = productoRepo.findById(producto.getCodigo_producto()).orElse(null);
 			if (buscado == null) {
 				throw new Error("El producto no existe");
+			} else if(buscado.getCantidad_disponible() == 0) {
+				throw new Error("No hay stock para el producto " + producto.getCodigo_producto());
 			}
 			precioTotalProductos += buscado.getCosto();
 			Double cantidadDisponible = buscado.getCantidad_disponible();
@@ -57,6 +59,7 @@ public class VentaService implements IVentaService {
 		venta.setUnCliente(ventaProductoDTO.getUnCliente());
 		
 		this.ventaRepo.save(venta);
+		return venta;
 	}
 
 	@Override

@@ -16,7 +16,7 @@ import java.util.List;
 
 
 public interface IVentaService {
-    public void saveVenta(VentaProductoDTO ventaProductoDTO);
+    public Venta saveVenta(VentaProductoDTO ventaProductoDTO);
     public List<Venta> getVentas();
     public Venta getVenta(Long codigo_venta);
     public void deleteVenta(Long codigo_venta);
