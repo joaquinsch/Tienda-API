@@ -12,6 +12,7 @@ public interface IProductoService{
         public Producto traerProducto(Long id);
         public void deleteProducto(Long id);
         public void editarProducto(Producto producto);
+        public void agregarStock(Long id, Double cantidad);
         
         
         

@@ -43,7 +43,7 @@ public class VentaService implements IVentaService {
 			Producto buscado = productoRepo.findById(producto.getCodigo_producto()).orElse(null);
 			if (buscado == null) {
 				throw new Error("El producto no existe");
-			} else if(buscado.getCantidad_disponible() == 0) {
+			} else if (buscado.getCantidad_disponible() == 0) {
 				throw new Error("No hay stock para el producto " + producto.getCodigo_producto());
 			}
 			precioTotalProductos += buscado.getCosto();
@@ -57,7 +57,7 @@ public class VentaService implements IVentaService {
 		venta.setTotal(precioTotalProductos);
 		venta.setListaProductos(ventaProductoDTO.getListaProductos());
 		venta.setUnCliente(ventaProductoDTO.getUnCliente());
-		
+
 		this.ventaRepo.save(venta);
 		return venta;
 	}

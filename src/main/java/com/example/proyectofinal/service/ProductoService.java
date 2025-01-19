@@ -42,8 +42,14 @@ public class ProductoService implements IProductoService{
     public void editarProducto(Producto producto) {
         this.crearProducto(producto);
     }
-    
 
-    
-    
+	@Override
+	public void agregarStock(Long id, Double cantidad) {
+		Producto prod = this.traerProducto(id);
+		if (prod == null) {
+			throw new IllegalArgumentException("No existe el producto con el id: " + id);
+		}
+		prod.setCantidad_disponible(prod.getCantidad_disponible() + cantidad);
+		this.productoRepo.save(prod);
+	}
 }
